@@ -51,8 +51,9 @@
         }
 
         .hero {
-            background: radial-gradient(ellipse at 85% 20%, #65764a 0%, transparent 35%),
-            linear-gradient(120deg, #252d25 0%, #354331 65%, #46543a 100%);
+            background:
+                radial-gradient(ellipse at 85% 20%, #65764a 0%, transparent 35%),
+                linear-gradient(120deg, #252d25 0%, #354331 65%, #46543a 100%);
             color: white;
             padding: 100px 0;
         }
@@ -202,6 +203,14 @@
             align-items: center;
             justify-content: center;
             font-size: 4rem;
+        }
+
+        /* Keep recipe photos consistent in size */
+        .recipe-photo {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
         }
 
         .recipe-art.beer {
@@ -435,20 +444,46 @@
             {% for recipe in recent_recipes %}
                 <div class="col-md-6 col-lg-4">
                     <article class="recipe-card">
+
+                        {% if recipe.photo %}
+                            <img
+                                src="{{ recipe.photo.url }}"
+                                alt="{{ recipe.title }}"
+                                class="recipe-photo"
+                            >
+                        {% else %}
+                            <div class="recipe-art beer" aria-hidden="true">
+                                🍺
+                            </div>
+                        {% endif %}
+
                         <div class="card-body">
+                            <span class="recipe-tag">
+                                {{ recipe.category }}
+                            </span>
+
                             <h3>{{ recipe.title }}</h3>
+
+                            <p class="text-secondary">
+                                {{ recipe.description|default:"No description available yet." }}
+                            </p>
+
+                            <div class="recipe-meta">
+                                <div>Style: {{ recipe.style }}</div>
+                                <div>ABV: {{ recipe.target_abv }}%</div>
+                            </div>
                         </div>
+
                     </article>
                 </div>
             {% empty %}
-                <p>No recipes have been added yet.</p>
+                <div class="col-12">
+                    <p class="text-secondary">
+                        No recipes have been added yet. Check back soon!
+                    </p>
+                </div>
             {% endfor %}
         </div>
-
-        <p class="text-secondary small mt-4">
-            Sample cards for layout purposes. Real recipes will be loaded
-            from the database in a later step.
-        </p>
     </div>
 </section>
 

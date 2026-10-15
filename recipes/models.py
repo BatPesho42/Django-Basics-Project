@@ -30,7 +30,7 @@ class Recipe(TimestampMixin):
     style = models.CharField(max_length=15, choices=StyleChoices.choices)
     description = models.TextField(blank=True, null=True)
     photo = models.ImageField(upload_to="recipes/", blank=True, null=True)
-    primary_fermentation_days = models.PositiveIntegerField(),
+    primary_fermentation_days = models.PositiveIntegerField(default=0)
     secondary_fermentation_days = models.PositiveIntegerField(blank=True, null=True)
     aging_days = models.PositiveIntegerField(blank=True, null=True)
     target_abv = models.DecimalField(max_digits=3, decimal_places=1, validators=[validate_positive])

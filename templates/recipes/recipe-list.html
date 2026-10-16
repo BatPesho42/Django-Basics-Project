@@ -1,4 +1,4 @@
-{% extends "common/base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Browse Recipes | HomeBrew{% endblock %}
 
@@ -71,7 +71,7 @@
                     <button type="submit" class="btn btn-success">
                         Apply filters
                     </button>
-                    <a href="{% url 'recipe-list' %}"
+                    <a href="{% url 'recipes:recipe-list' %}"
                        class="btn btn-outline-secondary">
                         Clear filters
                     </a>

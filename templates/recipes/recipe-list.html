@@ -1,0 +1,156 @@
+{% extends "common/base.html" %}
+
+{% block title %}Browse Recipes | HomeBrew{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <div class="mb-5">
+        <p class="text-uppercase text-secondary small mb-2">
+            Discover something new
+        </p>
+        <h1 class="display-5 fw-bold">Browse Recipes</h1>
+        <p class="text-secondary">
+            Explore homemade beer, wine, cider and more.
+        </p>
+    </div>
+
+    <!-- Filters: visual placeholders for now -->
+    <div class="card border-0 shadow-sm mb-5">
+        <div class="card-body p-4">
+            <h2 class="h5 mb-3">Find your next recipe</h2>
+
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label for="category" class="form-label">
+                        Category
+                    </label>
+                    <select id="category" name="category"
+                            class="form-select">
+                        <option value="">All categories</option>
+                        <option value="Beer">Beer</option>
+                        <option value="Wine">Wine</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="style" class="form-label">Style</label>
+                    <select id="style" name="style" class="form-select">
+                        <option value="">All styles</option>
+                        <option value="Lager">Lager</option>
+                        <option value="Ale">Ale</option>
+                        <option value="Sour">Sour</option>
+                        <option value="Red">Red</option>
+                        <option value="White">White</option>
+                        <option value="Rose">Rosé</option>
+                        <option value="Sparkling">Sparkling</option>
+                        <option value="Mead">Mead</option>
+                        <option value="Cider">Cider</option>
+                        <option value="Kombucha">Kombucha</option>
+                        <option value="Ginger Beer">Ginger Beer</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="min_rating" class="form-label">
+                        Minimum rating
+                    </label>
+                    <select id="min_rating" name="min_rating"
+                            class="form-select">
+                        <option value="">Any rating</option>
+                        <option value="4">4 stars and up</option>
+                        <option value="3">3 stars and up</option>
+                        <option value="2">2 stars and up</option>
+                        <option value="1">1 star and up</option>
+                    </select>
+                </div>
+
+                <div class="col-12 d-flex gap-2">
+                    <button type="submit" class="btn btn-success">
+                        Apply filters
+                    </button>
+                    <a href="{% url 'recipe-list' %}"
+                       class="btn btn-outline-secondary">
+                        Clear filters
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Recipe results -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h3 mb-0">All Recipes</h2>
+        <span class="text-secondary">
+            {{ recipes|length }} recipes
+        </span>
+    </div>
+
+    <div class="row g-4">
+        {% for recipe in recipes %}
+            <div class="col-md-6 col-lg-4">
+                <article class="card h-100 border-0 shadow-sm recipe-card">
+
+                    {% if recipe.photo %}
+                        <img src="{{ recipe.photo.url }}"
+                             alt="{{ recipe.title }}"
+                             class="recipe-photo">
+                    {% else %}
+                        <div class="recipe-placeholder d-flex
+                                    align-items-center justify-content-center">
+                            {% if recipe.category == "Beer" %}
+                                🍺
+                            {% elif recipe.category == "Wine" %}
+                                🍷
+                            {% else %}
+                                🫙
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between
+                                    align-items-center mb-2">
+                            <span class="badge text-bg-light">
+                                {{ recipe.category }}
+                            </span>
+
+                            <span class="small text-secondary">
+                                {% if recipe.average_rating != None %}
+                                    ★ {{ recipe.average_rating|floatformat:1 }}/5
+                                {% else %}
+                                    Not rated yet
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        <h3 class="h5 fw-bold">{{ recipe.title }}</h3>
+
+                        <p class="text-secondary small mb-3">
+                            {{ recipe.description|default:"No description available yet."|truncatewords:20 }}
+                        </p>
+
+                        <div class="d-flex justify-content-between
+                                    small text-secondary">
+                            <span>{{ recipe.style }}</span>
+                            <span>{{ recipe.target_abv }}% ABV</span>
+                        </div>
+                    </div>
+
+                </article>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center py-5">
+                <div class="display-4 mb-3">🫙</div>
+                <h3 class="h4">No recipes found</h3>
+                <p class="text-secondary">
+                    There are no recipes to display yet.
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

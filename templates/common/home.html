@@ -51,9 +51,8 @@
         }
 
         .hero {
-            background:
-                radial-gradient(ellipse at 85% 20%, #65764a 0%, transparent 35%),
-                linear-gradient(120deg, #252d25 0%, #354331 65%, #46543a 100%);
+            background: radial-gradient(ellipse at 85% 20%, #65764a 0%, transparent 35%),
+            linear-gradient(120deg, #252d25 0%, #354331 65%, #46543a 100%);
             color: white;
             padding: 100px 0;
         }
@@ -208,9 +207,11 @@
         /* Keep recipe photos consistent in size */
         .recipe-photo {
             width: 100%;
-            height: 180px;
-            object-fit: cover;
+            height: 220px;
+            object-fit: contain;
             display: block;
+            background-color: var(--brew-cream);
+            padding: 8px;
         }
 
         .recipe-art.beer {
@@ -447,9 +448,9 @@
 
                         {% if recipe.photo %}
                             <img
-                                src="{{ recipe.photo.url }}"
-                                alt="{{ recipe.title }}"
-                                class="recipe-photo"
+                                    src="{{ recipe.photo.url }}"
+                                    alt="{{ recipe.title }}"
+                                    class="recipe-photo"
                             >
                         {% else %}
                             <div class="recipe-art beer" aria-hidden="true">

@@ -1,6 +1,8 @@
+from django import forms
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
+from common.forms import SearchBarForm
 from recipes.models import Recipe
 
 
@@ -13,4 +15,19 @@ class HomePageView(TemplateView):
 
         recent_recipes = Recipe.objects.order_by('-created_at')[:3]
         context['recent_recipes'] = recent_recipes
+        return context
+
+
+class SearchResultView(TemplateView):
+    template_name = 'common/search.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = SearchBarForm(self.request.GET)
+
+        if form.is_valid() and form.cleaned_data['query'].strip():
+            search = form.cleaned_data['query']
+            recipes = Recipe.objects.filter(title__icontains=search)
+            context.update({'recipes': recipes, 'search': search})
+
+
         return context

@@ -13,7 +13,7 @@ class IngredientCategory(models.Model):
         ADDITIVE = "Additive", "Additive"
         CLARIFYING_AGENT = "Clarifying Agent", "Clarifying agent"
 
-    name = models.CharField(max_length=50, choices=CategoryChoices.choices)
+    name = models.CharField(max_length=50, unique=True, choices=CategoryChoices.choices)
 
     def __str__(self):
         return self.name

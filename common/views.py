@@ -2,7 +2,9 @@ from django import forms
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
+from catalog.models import Ingredient
 from common.forms import SearchBarForm
+from common.models import RecipeComment
 from recipes.models import Recipe
 
 
@@ -29,5 +31,18 @@ class SearchResultView(TemplateView):
             recipes = Recipe.objects.filter(title__icontains=search)
             context.update({'recipes': recipes, 'search': search})
 
+
+        return context
+
+class ProfileView(TemplateView):
+    template_name = "common/profile.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context.update({'recipes_count': Recipe.objects.count(),
+                        'ingredients_count': Ingredient.objects.count(),
+                        'comments_count': RecipeComment.objects.count()
+                        })
 
         return context

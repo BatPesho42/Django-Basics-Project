@@ -11,4 +11,5 @@ class IngredientForm(ModelForm):
         labels = {'name': 'Ingredient Name',
                   'description': 'Ingredient Description'}
         widgets = {"name": forms.TextInput(attrs={'placeholder': 'Ingredient Name'}),
-                   "description": forms.Textarea(attrs={'placeholder': 'Tell us about this ingredient...'})}
+                   "description": forms.Textarea(attrs={'placeholder': 'Tell us about this ingredient...'}),
+                   'categories': forms.CheckboxSelectMultiple()}

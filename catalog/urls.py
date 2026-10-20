@@ -8,6 +8,7 @@ urlpatterns = [
     path('', IngredientListView.as_view(), name='ingredient-list'),
     path('create/', IngredientCreateView.as_view(), name='ingredient-create'),
     path('<int:pk>', include([
+        path('', IngredientListView.as_view(), name='ingredient-detail'),
         path('edit/', IngredientEditView.as_view(), name='ingredient-edit'),
         path('delete/', IngredientDeleteView.as_view(), name='ingredient-delete'),
     ]))

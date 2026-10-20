@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-9 col-xl-8">
+
+            <!-- Page heading -->
+            <div class="mb-4">
+                <a href="{% url 'recipes:recipe-list' %}"
+                   class="text-decoration-none text-secondary">
+                    &larr; Back to recipes
+                </a>
+
+                <h1 class="display-5 mt-3">Create a Recipe</h1>
+                <p class="text-muted">
+                    Record your next brewing experiment.
+                    Add your recipe details and ingredients below.
+                </p>
+            </div>
+
+            <form method="post"
+                  enctype="multipart/form-data"
+                  class="card border-0 shadow-sm">
+
+                {% csrf_token %}
+
+                <div class="card-body p-4 p-md-5">
+
+                    <!-- Recipe details -->
+                    <h2 class="h4 mb-3">Recipe Details</h2>
+                    <p class="text-muted small mb-4">
+                        Give your creation a name and describe its character.
+                    </p>
+
+                    {{ form.non_field_errors }}
+
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}"
+                                   class="form-label fw-semibold">
+                                {{ field.label }}
+                            </label>
+
+                            {{ field }}
+
+                            {% if field.help_text %}
+                                <div class="form-text">
+                                    {{ field.help_text }}
+                                </div>
+                            {% endif %}
+
+                            {% for error in field.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+
+                    <hr class="my-5">
+
+                    <!-- Recipe ingredients -->
+                    <h2 class="h4 mb-2">Ingredients</h2>
+                    <p class="text-muted small mb-4">
+                        Add the ingredients used in your recipe.
+                        You can leave unused rows empty.
+                    </p>
+
+                    {{ formset.management_form }}
+                    {{ formset.non_form_errors }}
+
+                    {% for ingredient_form in formset %}
+                        <div class="ingredient-row border rounded-3 p-3 mb-3">
+
+                            <h3 class="h6 mb-3">
+                                Ingredient {{ forloop.counter }}
+                            </h3>
+
+                            {{ ingredient_form.non_field_errors }}
+
+                            {% for hidden in ingredient_form.hidden_fields %}
+                                {{ hidden }}
+                            {% endfor %}
+
+                            <div class="row">
+                                {% for field in ingredient_form.visible_fields %}
+                                    {% if field.name != 'DELETE' %}
+                                        <div class="col-md-6 mb-3">
+
+                                            <label
+                                                for="{{ field.id_for_label }}"
+                                                class="form-label">
+                                                {{ field.label }}
+                                            </label>
+
+                                            {{ field }}
+
+                                            {% for error in field.errors %}
+                                                <div class="text-danger small mt-1">
+                                                    {{ error }}
+                                                </div>
+                                            {% endfor %}
+
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                    {% endfor %}
+
+                    <div class="alert alert-light border small">
+                        <strong>Tip:</strong>
+                        Use the role field to distinguish main ingredients,
+                        secondary ingredients and fermentation agents.
+                    </div>
+
+                </div>
+
+                <!-- Form actions -->
+                <div class="card-footer bg-light border-0 p-4
+                            d-flex flex-column flex-sm-row
+                            justify-content-between gap-2">
+
+                    <a href="{% url 'recipes:recipe-list' %}"
+                       class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+
+                    <button type="submit" class="btn btn-success px-4">
+                        Save Recipe
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -12,19 +12,29 @@ class IngredientCreateView(CreateView):
     success_url = reverse_lazy('home')
     form_class = IngredientForm
     template_name = 'catalog/ingredient-create.html'
+    context_object_name = 'ingredient'
 
 class IngredientEditView(UpdateView):
     model = Ingredient
     success_url = reverse_lazy('home')
     form_class = IngredientForm
     template_name = 'catalog/ingredient-edit.html'
+    context_object_name = 'ingredient'
+
 
 class IngredientDeleteView(DeleteView):
     model = Ingredient
     success_url = reverse_lazy('home')
     template_name = 'catalog/ingredient-delete.html'
+    context_object_name = 'ingredient'
+
 
 class IngredientListView(ListView):
     model = Ingredient
     template_name = 'catalog/ingredient-list.html'
     context_object_name = 'ingredients'
+
+class IngredientDetailView(ListView):
+    model = Ingredient
+    template_name = 'catalog/ingredient-details.html'
+    context_object_name = 'ingredient'

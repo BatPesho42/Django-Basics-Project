@@ -55,7 +55,7 @@ class RecipeIngredient(models.Model):
     recipe = models.ForeignKey("Recipe", on_delete=models.CASCADE)
     ingredient = models.ForeignKey('catalog.Ingredient', on_delete=models.PROTECT)
     role = models.CharField(max_length=10, choices=RoleChoices.choices)
-    quantity = models.DecimalField(max_digits=6, decimal_places=2)
+    quantity = models.DecimalField(max_digits=6, decimal_places=2, validators=[validate_positive])
     unit = models.CharField(max_length=5, choices=UnitChoices.choices)
     stage = models.CharField(max_length=30, blank=True, null=True)
     notes = models.CharField(max_length= 60, blank=True, null=True)

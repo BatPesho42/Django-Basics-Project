@@ -1,7 +1,11 @@
 from django.db.models import Avg
-from django.shortcuts import render
-from django.views.generic import ListView
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy, reverse
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
+from common.forms import CommentForm
+
+from recipes.forms import RecipeForm, RecipeIngredientFormSet, RecipeDeleteForm
 from recipes.models import Recipe
 
 
@@ -31,3 +35,70 @@ class RecipeListView(ListView):
             qs = qs.filter(style=recipe_style)
 
         return qs
+
+class RecipeDetailView(DetailView):
+    model = Recipe
+    template_name = 'recipes/recipe-details.html'
+    context_object_name = 'recipe'
+
+    def get_queryset(self):
+        return Recipe.objects.filter(pk=self.kwargs['pk']).prefetch_related('comments')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'comment_form' not in context:
+            context['comment_form'] = CommentForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = CommentForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.recipe = self.object
+            comment.save()
+            return redirect('recipes:recipe-details', pk=self.object.pk)
+
+        context = self.get_context_data(comment_form=form)
+        return self.render_to_response(context)
+
+class RecipeCreateView(CreateView):
+    model = Recipe
+    success_url = reverse_lazy('recipes:recipe-list')
+    form_class = RecipeForm
+    template_name = 'recipes/recipe-create.html'
+    context_object_name = 'recipe'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        formset = RecipeIngredientFormSet()
+        context.update({'formset': formset})
+
+        return context
+
+class RecipeEditView(UpdateView):
+    model = Recipe
+    form_class = RecipeForm
+    template_name = 'recipes/recipe-edit.html'
+    context_object_name = 'recipe'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        recipe = self.object
+        formset = RecipeIngredientFormSet(instance=recipe)
+        context.update({'formset': formset})
+
+        return context
+
+    def get_success_url(self):
+        return reverse('recipes:recipe-details', kwargs={'pk': self.object.pk})
+
+class RecipeDeleteView(DeleteView):
+    model = Recipe
+    success_url = reverse_lazy('recipes:recipe-list')
+    form_class = RecipeDeleteForm
+    template_name = 'recipes/recipe-delete.html'
+    context_object_name = 'recipe'

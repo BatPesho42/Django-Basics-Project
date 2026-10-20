@@ -1,9 +1,9 @@
 from django import forms
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, UpdateView
 
 from catalog.models import Ingredient
-from common.forms import SearchBarForm
+from common.forms import SearchBarForm, CommentDeleteForm
 from common.models import RecipeComment
 from recipes.models import Recipe
 
@@ -46,3 +46,13 @@ class ProfileView(TemplateView):
                         })
 
         return context
+
+class CommentEditView(UpdateView):
+    model = RecipeComment
+    template_name = 'common/comment-edit.html'
+    context_object_name = 'comment'
+
+class CommentDeleteView(CommentDeleteForm):
+    model = RecipeComment
+    template_name = 'common/comment-delete.html'
+    context_object_name = 'comment'

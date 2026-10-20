@@ -1,9 +1,9 @@
 from django import forms
-from django.shortcuts import render
-from django.views.generic import TemplateView, UpdateView
+from django.shortcuts import render, redirect
+from django.views.generic import TemplateView, UpdateView, DeleteView
 
 from catalog.models import Ingredient
-from common.forms import SearchBarForm, CommentDeleteForm
+from common.forms import SearchBarForm, CommentDeleteForm, CommentForm
 from common.models import RecipeComment
 from recipes.models import Recipe
 
@@ -50,9 +50,19 @@ class ProfileView(TemplateView):
 class CommentEditView(UpdateView):
     model = RecipeComment
     template_name = 'common/comment-edit.html'
+    form_class = CommentForm
     context_object_name = 'comment'
+    pk_url_kwarg = 'comment_pk'
 
-class CommentDeleteView(CommentDeleteForm):
+    def get_success_url(self):
+        return redirect('recipes:recipe-details', pk=self.object.recipe.pk)
+
+class CommentDeleteView(DeleteView):
     model = RecipeComment
     template_name = 'common/comment-delete.html'
+    form_class = CommentDeleteForm
     context_object_name = 'comment'
+    pk_url_kwarg = 'comment_pk'
+
+    def get_success_url(self):
+        return redirect('recipes:recipe-details', pk=self.object.recipe.pk)

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, DeleteView, ListView
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
 
 from catalog.forms import IngredientForm
 from catalog.models import Ingredient
@@ -34,7 +34,7 @@ class IngredientListView(ListView):
     template_name = 'catalog/ingredient-list.html'
     context_object_name = 'ingredients'
 
-class IngredientDetailView(ListView):
+class IngredientDetailView(DetailView):
     model = Ingredient
     template_name = 'catalog/ingredient-details.html'
     context_object_name = 'ingredient'

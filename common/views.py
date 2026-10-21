@@ -22,6 +22,8 @@ class HomePageView(TemplateView):
 
 class SearchResultView(TemplateView):
     template_name = 'common/search.html'
+    paginate_by = 5
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         form = SearchBarForm(self.request.GET)

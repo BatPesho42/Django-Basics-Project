@@ -1,6 +1,7 @@
 from django import forms
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, UpdateView, DeleteView
+from django.urls import reverse
+from django.views.generic import TemplateView, UpdateView, DeleteView, ListView
 
 from catalog.models import Ingredient
 from common.forms import SearchBarForm, CommentDeleteForm, CommentForm
@@ -20,7 +21,7 @@ class HomePageView(TemplateView):
         return context
 
 
-class SearchResultView(TemplateView):
+class SearchResultView(ListView):
     template_name = 'common/search.html'
     paginate_by = 5
 
@@ -57,7 +58,7 @@ class CommentEditView(UpdateView):
     pk_url_kwarg = 'comment_pk'
 
     def get_success_url(self):
-        return redirect('recipes:recipe-details', pk=self.object.recipe.pk)
+        return reverse('recipes:recipe-details', kwargs={'pk': self.object.recipe.pk})
 
 class CommentDeleteView(DeleteView):
     model = RecipeComment
@@ -67,4 +68,4 @@ class CommentDeleteView(DeleteView):
     pk_url_kwarg = 'comment_pk'
 
     def get_success_url(self):
-        return redirect('recipes:recipe-details', pk=self.object.recipe.pk)
+        return reverse('recipes:recipe-details', kwargs={'pk': self.object.recipe.pk})

@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from mixins import TimestampMixin
@@ -38,6 +39,16 @@ class Recipe(TimestampMixin):
 
     def __str__(self):
         return self.title
+
+    def clean(self):
+        super().clean()
+
+        if self.category == self.CategoryChoices.WINE and self.style not in [self.StyleChoices.RED, self.StyleChoices.WHITE, self.StyleChoices.ROSE, self.StyleChoices.SPARKLING, self.StyleChoices.OTHER]:
+            raise ValidationError("Wine must be red, white, rose or sparkling")
+        if self.category == self.CategoryChoices.BEER and self.style not in [self.StyleChoices.LAGER, self.StyleChoices.ALE, self.StyleChoices.SOUR, self.StyleChoices.OTHER]:
+            raise ValidationError("Beer must be lager, ale or sour")
+        if self.category == self.CategoryChoices.OTHER and self.style not in [self.StyleChoices.OTHER, self.StyleChoices.MEAD, self.StyleChoices.CIDER, self.StyleChoices.KOMBUCHA, self.StyleChoices.GINGER_BEER]:
+            raise ValidationError("The Other category does not include wine or beer styles")
 
 class RecipeIngredient(models.Model):
     class RoleChoices(models.TextChoices):

@@ -20,7 +20,7 @@ class RecipeListView(ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        qs = super().get_queryset().annotate(average_rating=Avg('recipecomment__rating'))
+        qs = super().get_queryset().annotate(average_rating=Avg('comments__rating'))
 
         min_rating = self.request.GET.get('min_rating')
         if min_rating and min_rating.isdigit():
@@ -76,13 +76,16 @@ class RecipeCreateView(CreateView):
         context = super().get_context_data(**kwargs)
 
         if 'formset' not in context:
-            formset = RecipeIngredientFormSet()
+            if self.request.method == 'POST':
+                formset = RecipeIngredientFormSet(self.request.POST)
+            else:
+                formset = RecipeIngredientFormSet()
             context.update({'formset': formset})
 
         return context
 
     def form_valid(self, form):
-        formset = RecipeIngredientFormSet(self.request.POST, self.request.FILES)
+        formset = RecipeIngredientFormSet(self.request.POST)
 
         if not formset.is_valid():
             context = self.get_context_data(formset=formset, form=form)

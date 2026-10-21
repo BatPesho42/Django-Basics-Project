@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.db.models import ProtectedError
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
 
@@ -27,6 +29,13 @@ class IngredientDeleteView(DeleteView):
     success_url = reverse_lazy('catalog:ingredient-list')
     template_name = 'catalog/ingredient-delete.html'
     context_object_name = 'ingredient'
+
+    def form_valid(self, form):
+        try:
+            return super().form_valid(form)
+        except ProtectedError:
+            messages.error(self.request, 'Cannot delete ingredient that is used in a recipe.')
+            return redirect('catalog:ingredient-details', pk=self.object.pk)
 
 
 class IngredientListView(ListView):

@@ -143,3 +143,8 @@ class RecipeDeleteView(DeleteView):
     form_class = RecipeDeleteForm
     template_name = 'recipes/recipe-delete.html'
     context_object_name = 'recipe'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['instance'] = self.object
+        return kwargs

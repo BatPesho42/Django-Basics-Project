@@ -6,6 +6,7 @@ from django.views.generic import TemplateView, UpdateView, DeleteView, ListView
 from catalog.models import Ingredient
 from common.forms import SearchBarForm, CommentDeleteForm, CommentForm
 from common.models import RecipeComment
+from mixins import CommentViewMixin
 from recipes.models import Recipe
 
 
@@ -23,18 +24,23 @@ class HomePageView(TemplateView):
 
 class SearchResultView(ListView):
     template_name = 'common/search.html'
+    context_object_name = 'recipes'
     paginate_by = 5
+    ordering = ['-created_at']
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_queryset(self):
         form = SearchBarForm(self.request.GET)
 
         if form.is_valid() and form.cleaned_data['query'].strip():
             search = form.cleaned_data['query']
-            recipes = Recipe.objects.filter(title__icontains=search)
-            context.update({'recipes': recipes, 'search': search})
+            return Recipe.objects.filter(title__icontains=search)
 
+        return Recipe.objects.none()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = SearchBarForm(self.request.GET)
+        context['form'] = form
         return context
 
 class ProfileView(TemplateView):
@@ -50,22 +56,17 @@ class ProfileView(TemplateView):
 
         return context
 
-class CommentEditView(UpdateView):
+class CommentEditView(CommentViewMixin, UpdateView):
     model = RecipeComment
     template_name = 'common/comment-edit.html'
     form_class = CommentForm
     context_object_name = 'comment'
     pk_url_kwarg = 'comment_pk'
 
-    def get_success_url(self):
-        return reverse('recipes:recipe-details', kwargs={'pk': self.object.recipe.pk})
 
-class CommentDeleteView(DeleteView):
+class CommentDeleteView(CommentViewMixin, DeleteView):
     model = RecipeComment
     template_name = 'common/comment-delete.html'
     form_class = CommentDeleteForm
     context_object_name = 'comment'
     pk_url_kwarg = 'comment_pk'
-
-    def get_success_url(self):
-        return reverse('recipes:recipe-details', kwargs={'pk': self.object.recipe.pk})

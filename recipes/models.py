@@ -35,6 +35,7 @@ class Recipe(TimestampMixin):
     secondary_fermentation_days = models.PositiveIntegerField(blank=True, null=True)
     aging_days = models.PositiveIntegerField(blank=True, null=True)
     target_abv = models.DecimalField(max_digits=3, decimal_places=1, validators=[validate_positive])
+    ingredients = models.ManyToManyField('catalog.Ingredient', through='RecipeIngredient', related_name='recipes')
 
 
     def __str__(self):

@@ -9,7 +9,8 @@ class IngredientForm(ModelForm):
         model = Ingredient
         exclude = ['created_at', 'updated_at']
         labels = {'name': 'Ingredient Name',
-                  'description': 'Ingredient Description'}
+                  'description': 'Ingredient Description',
+                  'categories': 'Categories'}
         widgets = {"name": forms.TextInput(attrs={'placeholder': 'Ingredient Name'}),
                    "description": forms.Textarea(attrs={'placeholder': 'Tell us about this ingredient...'}),
-                   'categories': forms.CheckboxSelectMultiple()}
+                   }

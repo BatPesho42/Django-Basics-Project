@@ -1,0 +1,46 @@
+{# Renders one form field: label, widget, help text and errors. Expects `field`. #}
+{% if field.name == 'categories' %}
+    <fieldset class="mb-4 category-fieldset {% if field.errors %}has-error{% endif %}"
+              aria-describedby="{{ field.auto_id }}_help {% if field.errors %}{{ field.auto_id }}_errors{% endif %}">
+        <legend class="form-label mb-1">
+            {{ field.label }}
+            {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+        </legend>
+
+        <p class="field-help mt-0 mb-3" id="{{ field.auto_id }}_help">
+            Select every label that applies to this ingredient. You can choose more than one.
+        </p>
+
+        <div class="category-choice-grid">
+            {# Let Django render its own checkbox labels and input values. #}
+            {{ field }}
+        </div>
+
+        {% if field.help_text %}
+            <div class="field-help">{{ field.help_text }}</div>
+        {% endif %}
+
+        {% if field.errors %}
+            <div class="field-error" id="{{ field.auto_id }}_errors">
+                {% for error in field.errors %}<div>{{ error }}</div>{% endfor %}
+            </div>
+        {% endif %}
+    </fieldset>
+{% else %}
+    <div class="mb-3 {% if field.errors %}has-error{% endif %}">
+        <label for="{{ field.id_for_label }}" class="form-label">
+            {{ field.label }}
+            {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+        </label>
+
+        {{ field }}
+
+        {% if field.help_text %}
+            <div class="field-help">{{ field.help_text }}</div>
+        {% endif %}
+
+        {% for error in field.errors %}
+            <div class="field-error">{{ error }}</div>
+        {% endfor %}
+    </div>
+{% endif %}

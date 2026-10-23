@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}Search | HomeBrew{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <header class="mb-4">
+        <p class="page-label mb-2">Find your next idea</p>
+        <h1 class="display-5 fw-bold">Search HomeBrew</h1>
+        <p class="text-secondary mb-0">Look for recipes and ingredients to inspire your next batch.</p>
+    </header>
+
+    <form method="get" action="{% url 'common:search' %}" class="hb-form hb-panel shadow-sm mb-5">
+        <div class="hb-panel-body">
+            <label for="{{ form.query.id_for_label }}" class="form-label">Search term</label>
+            <div class="row g-2">
+                <div class="col-md-9">
+                    {{ form.query }}
+                    {% for error in form.query.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+                </div>
+                <div class="col-md-3 d-grid">
+                    <button type="submit" class="btn btn-brew-green">Search</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    {% if form.query.value %}
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-end gap-2 mb-4">
+            <div>
+                <p class="page-label mb-1">Search results</p>
+                <h2 class="h3 mb-0">Results for “{{ form.query.value }}”</h2>
+            </div>
+            <span class="text-secondary">{{ paginator.count }} recipe{{ paginator.count|pluralize }} found</span>
+        </div>
+
+        <div class="row g-4">
+            {% for recipe in recipes %}
+                <div class="col-md-6 col-lg-4">
+                    {% include 'partials/_recipe_card.html' with recipe=recipe %}
+                </div>
+            {% empty %}
+                {% if not ingredients %}
+                    <div class="col-12">
+                        <div class="hb-panel text-center p-5">
+                            <div class="display-5 mb-3" aria-hidden="true">🔎</div>
+                            <h3 class="h4">No recipes found</h3>
+                            <p class="text-secondary mb-3">Try another search term or browse all recipes.</p>
+                            <a href="{% url 'recipes:recipe-list' %}" class="btn btn-outline-dark">Browse recipes</a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        {% if ingredients %}
+            <section class="mt-5">
+                <div class="d-flex justify-content-between align-items-end gap-2 mb-3">
+                    <h2 class="h3 mb-0">Matching ingredients</h2>
+                    <a href="{% url 'catalog:ingredient-list' %}" class="text-decoration-none">Browse catalogue &rarr;</a>
+                </div>
+                <div class="row g-3">
+                    {% for ingredient in ingredients %}
+                        <div class="col-md-6 col-lg-4">
+                            <article class="ingredient-card card h-100 border-0 shadow-sm">
+                                <div class="card-body p-4">
+                                    <div class="d-flex flex-wrap gap-1 mb-2">
+                                        {% for label in ingredient.category_labels %}<span class="recipe-tag">{{ label }}</span>{% endfor %}
+                                    </div>
+                                    <h3 class="h5 fw-bold"><a class="text-reset text-decoration-none" href="{% url 'catalog:ingredient-details' ingredient.pk %}">{{ ingredient.name }}</a></h3>
+                                    <p class="text-secondary small mb-0">{{ ingredient.description|default:"No description added."|truncatewords:20 }}</p>
+                                </div>
+                            </article>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endif %}
+
+        {% with q=form.query.value|urlencode %}
+            {% with extra="&query="|add:q %}
+                {% include 'partials/_pagination.html' %}
+            {% endwith %}
+        {% endwith %}
+    {% else %}
+        <div class="text-center py-5">
+            <div class="display-4 mb-3" aria-hidden="true">🍺</div>
+            <h2 class="h4">What are you looking for?</h2>
+            <p class="text-secondary">Enter a recipe or ingredient name above to get started.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

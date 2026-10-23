@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete comment | HomeBrew{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-xl-6">
+            <a href="{% url 'recipes:recipe-details' comment.recipe_id %}#comments" class="back-link">
+                &larr; Back to {{ comment.recipe.title }}
+            </a>
+
+            <div class="hb-panel shadow-sm mt-4 overflow-hidden">
+                <div class="hb-panel-body p-4 p-md-5">
+                    <p class="page-label mb-2">Comment moderation</p>
+                    <h1 class="h2 mb-3">Delete this comment?</h1>
+                    <p class="text-secondary">This will permanently remove the comment from <strong>{{ comment.recipe.title }}</strong>.</p>
+
+                    <div class="comment-card mt-4">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div>
+                                <strong>{{ comment.author }}</strong>
+                                <div class="small text-secondary">{{ comment.created_at|date:"d M Y, H:i" }}</div>
+                            </div>
+                            <span class="rating">★ {{ comment.rating }}/5</span>
+                        </div>
+                        <p class="mt-3 mb-0">{{ comment.comment|linebreaksbr }}</p>
+                        {% if comment.photo %}
+                            <img src="{{ comment.photo.url }}" alt="Photo attached by {{ comment.author }}" class="comment-photo mt-3">
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="border-top p-4 d-flex flex-column flex-sm-row justify-content-between gap-2" style="background: var(--brew-cream);">
+                    <a href="{% url 'recipes:recipe-details' comment.recipe_id %}#comments" class="btn btn-outline-secondary">Cancel</a>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger px-4">Delete comment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

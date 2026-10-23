@@ -1,0 +1,707 @@
+/* ==========================================================
+   HomeBrew - site styles (works on top of Bootstrap 5.3)
+   ========================================================== */
+
+:root {
+    --brew-dark: #252d25;
+    --brew-green: #526747;
+    --brew-gold: #d6a64f;
+    --brew-cream: #f8f5ed;
+    --brew-muted: #77796f;
+    --brew-line: #e9e5d9;
+    --brew-danger: #b3261e;
+}
+
+/* ---------- Base ---------- */
+body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--brew-dark);
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+h1, h2, h3, .brand {
+    font-family: 'Playfair Display', serif;
+}
+
+a {
+    color: var(--brew-green);
+}
+
+a:hover {
+    color: var(--brew-dark);
+}
+
+/* ---------- Navbar ---------- */
+.hb-navbar {
+    background: var(--brew-dark);
+}
+
+.brand {
+    color: var(--brew-gold) !important;
+    font-size: 1.65rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.hb-navbar .nav-link {
+    color: #e6e7df;
+    margin-left: 0.5rem;
+}
+
+.hb-navbar .nav-link:hover,
+.hb-navbar .nav-link.active {
+    color: var(--brew-gold);
+}
+
+.hb-navbar .dropdown-menu {
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px #00000025;
+}
+
+.nav-search input {
+    background: #ffffff14;
+    border: 1px solid #ffffff30;
+    color: #fff;
+    min-width: 190px;
+}
+
+.nav-search input::placeholder {
+    color: #b9c1b1;
+}
+
+.nav-search input:focus {
+    background: #ffffff20;
+    color: #fff;
+    border-color: var(--brew-gold);
+    box-shadow: none;
+}
+
+/* ---------- Buttons ---------- */
+.btn-brew {
+    background: var(--brew-gold);
+    color: #24291f;
+    border: 1px solid var(--brew-gold);
+    font-weight: 700;
+}
+
+.btn-brew:hover {
+    background: #e5bb70;
+    border-color: #e5bb70;
+    color: #24291f;
+}
+
+.btn-brew-green {
+    background: var(--brew-green);
+    color: #fff;
+    border: 1px solid var(--brew-green);
+    font-weight: 600;
+}
+
+.btn-brew-green:hover {
+    background: #435638;
+    border-color: #435638;
+    color: #fff;
+}
+
+.btn-outline-brew {
+    color: #fff;
+    border: 1px solid #b9c1b1;
+}
+
+.btn-outline-brew:hover {
+    color: #fff;
+    background: #ffffff18;
+}
+
+/* ---------- Page headings ---------- */
+.page-label,
+.section-label {
+    color: var(--brew-green);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.section-title {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+}
+
+.back-link {
+    color: var(--brew-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.back-link:hover {
+    color: var(--brew-dark);
+}
+
+/* ---------- Hero (home) ---------- */
+.hero {
+    background: radial-gradient(ellipse at 85% 20%, #65764a 0%, transparent 35%),
+    linear-gradient(120deg, #252d25 0%, #354331 65%, #46543a 100%);
+    color: #fff;
+    padding: 100px 0;
+}
+
+.hero-label {
+    color: var(--brew-gold);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.hero h1 {
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 1.12;
+}
+
+.hero p {
+    color: #d8ded2;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    max-width: 540px;
+}
+
+.hero-art {
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.hero-circle {
+    width: min(310px, 75vw);
+    height: min(310px, 75vw);
+    border-radius: 50%;
+    background: linear-gradient(145deg, #718258, #39472f);
+    border: 1px solid #a0ad8290;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 25px 70px #00000030;
+}
+
+.hero-circle span {
+    font-size: 8rem;
+}
+
+.hero-note {
+    position: absolute;
+    bottom: 15px;
+    right: 0;
+    background: var(--brew-cream);
+    color: var(--brew-dark);
+    border-radius: 12px;
+    padding: 14px 20px;
+    box-shadow: 0 10px 30px #00000025;
+}
+
+/* ---------- Home sections ---------- */
+.categories-section {
+    background: var(--brew-cream);
+}
+
+.category-card {
+    background: #fff;
+    border: 1px solid var(--brew-line);
+    border-radius: 16px;
+    padding: 28px 16px;
+    text-align: center;
+    height: 100%;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px #252d2510;
+}
+
+.category-icon {
+    font-size: 2.4rem;
+    margin-bottom: 15px;
+}
+
+.category-card h3 {
+    font-size: 1.25rem;
+}
+
+.category-card p {
+    color: var(--brew-muted);
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+.cta-section {
+    background: var(--brew-green);
+    color: #fff;
+}
+
+.cta-section p {
+    color: #e0e6d9;
+}
+
+/* ---------- Recipe cards ---------- */
+.recipe-card {
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.recipe-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px #252d2518 !important;
+}
+
+.recipe-photo {
+    width: 100%;
+    height: 220px;
+    object-fit: contain;
+    display: block;
+    background-color: var(--brew-cream);
+    padding: 8px;
+}
+
+.recipe-placeholder {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+}
+
+.recipe-placeholder.beer {
+    background: linear-gradient(135deg, #f4d7a0, #e7ad50);
+}
+
+.recipe-placeholder.wine {
+    background: linear-gradient(135deg, #e9c8bc, #bb7770);
+}
+
+.recipe-placeholder.other {
+    background: linear-gradient(135deg, #e7e7b4, #b7bd72);
+}
+
+.recipe-tag {
+    display: inline-block;
+    background: #edf0e7;
+    color: var(--brew-green);
+    padding: 5px 10px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+/* ---------- Generic panels ---------- */
+.hb-panel {
+    background: #fff;
+    border: 1px solid var(--brew-line);
+    border-radius: 16px;
+}
+
+.hb-panel-header {
+    border-bottom: 1px solid var(--brew-line);
+    padding: 1rem 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.hb-panel-body {
+    padding: 1.5rem;
+}
+
+.fact-list dt {
+    color: var(--brew-muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.fact-list dd {
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+}
+
+/* ---------- Recipe details ---------- */
+.detail-photo {
+    width: 100%;
+    max-height: 380px;
+    object-fit: contain;
+    background: var(--brew-cream);
+    border-radius: 16px;
+}
+
+.stage-step {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.6rem 0;
+}
+
+.stage-step + .stage-step {
+    border-top: 1px dashed var(--brew-line);
+}
+
+.stage-days {
+    min-width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: var(--brew-cream);
+    color: var(--brew-green);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.stage-days small {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.ingredient-table th {
+    color: var(--brew-muted);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.role-badge {
+    background: #edf0e7;
+    color: var(--brew-green);
+    font-weight: 600;
+}
+
+.comment-card {
+    border: 1px solid var(--brew-line);
+    border-radius: 14px;
+    padding: 1.1rem 1.25rem;
+}
+
+.comment-photo {
+    max-height: 180px;
+    border-radius: 10px;
+}
+
+.rating {
+    color: #b88a1f;
+    font-weight: 700;
+}
+
+/* ---------- Forms (style plain Django widgets like Bootstrap) ---------- */
+.hb-form label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.35rem;
+}
+
+.hb-form input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=hidden]),
+.hb-form select,
+.hb-form textarea {
+    display: block;
+    width: 100%;
+    padding: 0.55rem 0.8rem;
+    font-size: 0.95rem;
+    color: var(--brew-dark);
+    background-color: #fff;
+    border: 1px solid #cfd4c8;
+    border-radius: 10px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.hb-form textarea {
+    min-height: 130px;
+}
+
+.hb-form input[type=file] {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    background: var(--brew-cream);
+    border: 1px dashed #bfc6b6;
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+.hb-form input[type=checkbox] {
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--brew-danger);
+}
+
+.hb-form input:focus,
+.hb-form select:focus,
+.hb-form textarea:focus {
+    outline: 0;
+    border-color: var(--brew-green);
+    box-shadow: 0 0 0 0.2rem rgba(82, 103, 71, 0.18);
+}
+
+.hb-form .has-error input:not([type=checkbox]):not([type=file]),
+.hb-form .has-error select,
+.hb-form .has-error textarea {
+    border-color: var(--brew-danger);
+}
+
+.hb-form [readonly] {
+    background: #f1f2ee;
+    color: #6b6e63;
+    cursor: not-allowed;
+}
+
+.hb-form select[readonly] {
+    pointer-events: none;
+}
+
+.field-error {
+    color: var(--brew-danger);
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+}
+
+.field-help {
+    color: var(--brew-muted);
+    font-size: 0.82rem;
+    margin-top: 0.3rem;
+}
+
+.ingredient-row {
+    background: #fcfbf7;
+    border: 1px solid var(--brew-line);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 0.9rem;
+}
+
+.ingredient-row .row-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--brew-green);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ---------- Ingredient cards ---------- */
+.ingredient-card {
+    border-radius: 16px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ingredient-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px #252d2514 !important;
+}
+
+/* ---------- Stats ---------- */
+.stat-card {
+    text-align: center;
+    padding: 2rem 1rem;
+    height: 100%;
+}
+
+.stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.4rem;
+    font-weight: 700;
+    color: var(--brew-green);
+    line-height: 1;
+}
+
+/* ---------- Pagination ---------- */
+.pagination .page-link {
+    color: var(--brew-green);
+    border-color: var(--brew-line);
+}
+
+.pagination .page-item.active .page-link {
+    background: var(--brew-green);
+    border-color: var(--brew-green);
+    color: #fff;
+}
+
+/* ---------- 404 ---------- */
+.error-code {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(5rem, 16vw, 9rem);
+    font-weight: 700;
+    color: var(--brew-gold);
+    line-height: 1;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+    background: var(--brew-dark);
+    color: #c9cec3;
+}
+
+.site-footer a {
+    color: #c9cec3;
+    text-decoration: none;
+}
+
+.site-footer a:hover {
+    color: var(--brew-gold);
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 767px) {
+    .hero {
+        padding: 65px 0;
+    }
+
+    .hero-art {
+        min-height: 270px;
+    }
+
+    .hero-note {
+        right: 5px;
+    }
+
+    .nav-search {
+        margin-top: 0.75rem;
+    }
+}
+
+/* ---------- Placeholder profile chip (no authentication required) ---------- */
+.placeholder-profile-wrap {
+    display: flex;
+    align-items: center;
+    margin-left: .25rem;
+}
+.placeholder-profile {
+    display: inline-flex;
+    align-items: center;
+    gap: .65rem;
+    padding: .35rem .55rem;
+    border: 1px solid #ffffff2b;
+    border-radius: 999px;
+    color: #f8f5ed !important;
+    text-decoration: none;
+    transition: background-color .2s ease, border-color .2s ease;
+}
+.placeholder-profile:hover,
+.placeholder-profile:focus-visible {
+    color: #fff !important;
+    background: #ffffff12;
+    border-color: #d6a64f;
+}
+.placeholder-avatar {
+    display: inline-flex;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #d6a64f;
+    color: #252d25;
+    font-weight: 700;
+    font-size: .9rem;
+}
+.placeholder-profile-copy {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+    text-align: left;
+}
+.placeholder-greeting {
+    color: #c7cdbf;
+    font-size: .68rem;
+}
+.placeholder-name {
+    color: #fff;
+    font-size: .86rem;
+    font-weight: 700;
+}
+.placeholder-chevron {
+    color: #d6a64f;
+    font-size: 1rem;
+    margin-left: .1rem;
+}
+@media (max-width: 991.98px) {
+    .placeholder-profile-wrap {
+        margin: .75rem 0 .25rem;
+    }
+    .nav-search {
+        max-width: 100%;
+    }
+}
+
+/* ---------- Ingredient category labels (multi-select checkboxes) ---------- */
+.category-fieldset {
+    min-width: 0;
+    padding: 1rem;
+    border: 1px solid var(--brew-line);
+    border-radius: 12px;
+    background: #fcfbf7;
+}
+
+.category-fieldset legend {
+    float: none;
+    width: auto;
+    padding: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+/* CheckboxSelectMultiple renders its own wrapper and labels. Style that output directly. */
+.category-choice-grid #id_categories {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+}
+
+.category-choice-grid #id_categories > div {
+    min-width: 0;
+    padding: 0.75rem;
+    border: 1px solid var(--brew-line);
+    border-radius: 10px;
+    background: #fff;
+    transition: border-color 0.15s, background-color 0.15s;
+}
+
+.category-choice-grid #id_categories > div:has(input:checked) {
+    border-color: var(--brew-green);
+    background: #f0f4ec;
+}
+
+.hb-form .category-choice-grid #id_categories label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    margin: 0;
+    font-size: 0.88rem;
+    font-weight: 500;
+    line-height: 1.35;
+    cursor: pointer;
+}
+
+.hb-form .category-choice-grid #id_categories input[type="checkbox"] {
+    flex: 0 0 auto;
+    width: 1.1rem;
+    height: 1.1rem;
+    margin: 0.15rem 0 0;
+    accent-color: var(--brew-green);
+}
+
+@media (max-width: 575.98px) {
+    .category-choice-grid #id_categories {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

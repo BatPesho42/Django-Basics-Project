@@ -1,0 +1,117 @@
+/* Ingredient catalogue pages. This stylesheet intentionally does not hide inputs. */
+.ingredient-page {
+    max-width: 1140px;
+}
+
+.ingredient-eyebrow {
+    color: var(--bs-secondary-color, #6c757d);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.ingredient-card {
+    border: 1px solid rgba(40, 65, 48, 0.15);
+    border-radius: 1rem;
+    box-shadow: 0 0.35rem 1.2rem rgba(20, 35, 25, 0.05);
+}
+
+.ingredient-description {
+    overflow-wrap: anywhere;
+}
+
+.ingredient-badge {
+    background: #e8efe7;
+    color: #294c35;
+    font-weight: 600;
+}
+
+.ingredient-empty-state {
+    border: 1px dashed rgba(40, 65, 48, 0.3);
+    border-radius: 1rem;
+}
+
+.ingredient-form-card {
+    max-width: 850px;
+}
+
+.ingredient-form-card input[type="text"],
+.ingredient-form-card textarea,
+.ingredient-form-card select {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.ingredient-form-card input[type="text"],
+.ingredient-form-card textarea {
+    border: 1px solid var(--bs-border-color, #ced4da);
+    border-radius: 0.5rem;
+    padding: 0.65rem 0.8rem;
+}
+
+.ingredient-form-card textarea {
+    min-height: 130px;
+}
+
+.ingredient-category-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem 1rem;
+    align-items: start;
+}
+
+.ingredient-category-options > div {
+    min-width: 0;
+}
+
+.ingredient-category-options label {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    margin: 0;
+    cursor: pointer;
+    line-height: 1.45;
+}
+
+.ingredient-category-options input[type="checkbox"] {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: static !important;
+    flex: 0 0 auto;
+    width: 1rem;
+    height: 1rem;
+    margin: 0.2rem 0 0;
+    accent-color: #315b3c;
+}
+
+.ingredient-category-options ul {
+    display: contents;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ingredient-category-options li {
+    list-style: none;
+    margin: 0;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid rgba(40, 65, 48, 0.18);
+    border-radius: 0.65rem;
+    background: rgba(232, 239, 231, 0.35);
+}
+
+.ingredient-category-options label input[type="checkbox"] {
+    margin-right: 0.1rem;
+}
+
+@media (max-width: 575.98px) {
+    .ingredient-category-options {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ingredient-form-card .card-body {
+        padding: 1.25rem !important;
+    }
+}

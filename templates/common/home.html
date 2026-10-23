@@ -1,339 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>HomeBrew | Craft Your Own</title>
+{% extends 'base.html' %}
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+{% block title %}HomeBrew | Craft Your Own{% endblock %}
 
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
-          rel="stylesheet">
-
-    <style>
-        :root {
-            --brew-dark: #252d25;
-            --brew-green: #526747;
-            --brew-gold: #d6a64f;
-            --brew-cream: #f8f5ed;
-            --brew-muted: #77796f;
-        }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            color: var(--brew-dark);
-            background: #fff;
-        }
-
-        h1, h2, h3, .brand {
-            font-family: 'Playfair Display', serif;
-        }
-
-        .navbar {
-            background: var(--brew-dark);
-        }
-
-        .brand {
-            color: var(--brew-gold);
-            font-size: 1.65rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .navbar .nav-link {
-            color: #e6e7df;
-            margin-left: 0.75rem;
-        }
-
-        .navbar .nav-link:hover {
-            color: var(--brew-gold);
-        }
-
-        .hero {
-            background: radial-gradient(ellipse at 85% 20%, #65764a 0%, transparent 35%),
-            linear-gradient(120deg, #252d25 0%, #354331 65%, #46543a 100%);
-            color: white;
-            padding: 100px 0;
-        }
-
-        .hero-label {
-            color: var(--brew-gold);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 0.8rem;
-            font-weight: 700;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.8rem, 6vw, 5rem);
-            line-height: 1.12;
-        }
-
-        .hero p {
-            color: #d8ded2;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            max-width: 540px;
-        }
-
-        .btn-brew {
-            background: var(--brew-gold);
-            color: #24291f;
-            border: 1px solid var(--brew-gold);
-            padding: 12px 25px;
-            font-weight: 700;
-        }
-
-        .btn-brew:hover {
-            background: #e5bb70;
-            border-color: #e5bb70;
-            color: #24291f;
-        }
-
-        .btn-outline-brew {
-            color: white;
-            border: 1px solid #b9c1b1;
-            padding: 12px 25px;
-        }
-
-        .btn-outline-brew:hover {
-            color: white;
-            background: #ffffff18;
-        }
-
-        .hero-art {
-            min-height: 320px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .hero-circle {
-            width: min(310px, 75vw);
-            height: min(310px, 75vw);
-            border-radius: 50%;
-            background: linear-gradient(145deg, #718258, #39472f);
-            border: 1px solid #a0ad8290;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 25px 70px #00000030;
-        }
-
-        .hero-circle span {
-            font-size: 8rem;
-        }
-
-        .hero-note {
-            position: absolute;
-            bottom: 15px;
-            right: 0;
-            background: #f8f5ed;
-            color: var(--brew-dark);
-            border-radius: 12px;
-            padding: 14px 20px;
-            box-shadow: 0 10px 30px #00000025;
-        }
-
-        .section-label {
-            color: var(--brew-green);
-            font-size: 0.78rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .section-title {
-            font-size: clamp(2rem, 4vw, 2.8rem);
-        }
-
-        .categories-section {
-            background: var(--brew-cream);
-        }
-
-        .category-card {
-            background: white;
-            border: 1px solid #e9e5d9;
-            border-radius: 16px;
-            padding: 28px 16px;
-            text-align: center;
-            height: 100%;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px #252d2510;
-        }
-
-        .category-icon {
-            font-size: 2.4rem;
-            margin-bottom: 15px;
-        }
-
-        .category-card h3 {
-            font-size: 1.25rem;
-        }
-
-        .category-card p {
-            color: var(--brew-muted);
-            font-size: 0.9rem;
-            margin-bottom: 0;
-        }
-
-        .recipe-card {
-            border: 1px solid #ece9e0;
-            border-radius: 16px;
-            overflow: hidden;
-            height: 100%;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .recipe-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 28px #252d2512;
-        }
-
-        .recipe-art {
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-        }
-
-        /* Keep recipe photos consistent in size */
-        .recipe-photo {
-            width: 100%;
-            height: 220px;
-            object-fit: contain;
-            display: block;
-            background-color: var(--brew-cream);
-            padding: 8px;
-        }
-
-        .recipe-art.beer {
-            background: linear-gradient(135deg, #f4d7a0, #e7ad50);
-        }
-
-        .recipe-art.wine {
-            background: linear-gradient(135deg, #e9c8bc, #bb7770);
-        }
-
-        .recipe-art.cider {
-            background: linear-gradient(135deg, #e7e7b4, #b7bd72);
-        }
-
-        .recipe-card .card-body {
-            padding: 24px;
-        }
-
-        .recipe-tag {
-            display: inline-block;
-            background: #edf0e7;
-            color: var(--brew-green);
-            padding: 5px 10px;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-
-        .recipe-card h3 {
-            font-size: 1.4rem;
-            margin-top: 14px;
-        }
-
-        .recipe-meta {
-            color: var(--brew-muted);
-            font-size: 0.85rem;
-        }
-
-        .cta-section {
-            background: var(--brew-green);
-            color: white;
-        }
-
-        .cta-section p {
-            color: #e0e6d9;
-        }
-
-        footer {
-            background: var(--brew-dark);
-            color: #c9cec3;
-        }
-
-        footer a {
-            color: #c9cec3;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            color: var(--brew-gold);
-        }
-
-        @media (max-width: 767px) {
-            .hero {
-                padding: 65px 0;
-            }
-
-            .hero-art {
-                min-height: 270px;
-            }
-
-            .hero-note {
-                right: 5px;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-    <div class="container">
-        <a class="navbar-brand brand" href="#">HomeBrew<span>.</span></a>
-
-        <button class="navbar-toggler" type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#mainNavbar"
-                aria-controls="mainNavbar"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="mainNavbar">
-            <ul class="navbar-nav ms-auto align-items-lg-center">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Recipes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Ingredients</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+{% block content %}
 
 <!-- Hero -->
-<header class="hero">
+<section class="hero">
     <div class="container">
         <div class="row align-items-center g-5">
             <div class="col-lg-7">
                 <span class="hero-label">Made by you. Shared with everyone.</span>
 
-                <h1 class="mt-4 mb-4">
-                    Your next great brew starts here.
-                </h1>
+                <h1 class="mt-4 mb-4">Your next great brew starts here.</h1>
 
                 <p class="mb-4">
                     Explore recipes, discover ingredients, and find inspiration
@@ -342,11 +20,11 @@
                 </p>
 
                 <div class="d-flex flex-wrap gap-3">
-                    <a href="#recipes" class="btn btn-brew">
+                    <a href="{% url 'recipes:recipe-list' %}" class="btn btn-brew btn-lg">
                         Explore recipes &rarr;
                     </a>
-                    <a href="#categories" class="btn btn-outline-brew">
-                        Discover brewing
+                    <a href="{% url 'recipes:recipe-create' %}" class="btn btn-outline-brew btn-lg">
+                        Share a recipe
                     </a>
                 </div>
             </div>
@@ -358,50 +36,46 @@
                     </div>
                     <div class="hero-note">
                         <strong>Crafted with care</strong>
-                        <div class="small text-secondary">
-                            Every recipe tells a story.
-                        </div>
+                        <div class="small text-secondary">Every recipe tells a story.</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</header>
+</section>
 
 <!-- Categories -->
-<section class="categories-section py-5" id="categories">
+<section class="categories-section py-5">
     <div class="container py-4">
         <div class="text-center mb-5">
             <span class="section-label">Find your craft</span>
             <h2 class="section-title mt-2">What will you brew?</h2>
-            <p class="text-secondary">
-                Explore different styles and discover your next project.
-            </p>
+            <p class="text-secondary">Explore different styles and discover your next project.</p>
         </div>
 
         <div class="row g-4">
             <div class="col-6 col-lg-3">
-                <a href="#" class="text-decoration-none text-dark">
+                <a href="{% url 'recipes:recipe-list' %}?category=Beer" class="text-decoration-none text-dark">
                     <div class="category-card">
                         <div class="category-icon" aria-hidden="true">🍺</div>
                         <h3>Beer</h3>
-                        <p>From crisp lagers to bold stouts.</p>
+                        <p>From crisp lagers to bold sours.</p>
                     </div>
                 </a>
             </div>
 
             <div class="col-6 col-lg-3">
-                <a href="#" class="text-decoration-none text-dark">
+                <a href="{% url 'recipes:recipe-list' %}?category=Wine" class="text-decoration-none text-dark">
                     <div class="category-card">
                         <div class="category-icon" aria-hidden="true">🍷</div>
                         <h3>Wine</h3>
-                        <p>Explore grapes, blends, and styles.</p>
+                        <p>Reds, whites, rosé and sparkling.</p>
                     </div>
                 </a>
             </div>
 
             <div class="col-6 col-lg-3">
-                <a href="#" class="text-decoration-none text-dark">
+                <a href="{% url 'recipes:recipe-list' %}?style=Cider" class="text-decoration-none text-dark">
                     <div class="category-card">
                         <div class="category-icon" aria-hidden="true">🍎</div>
                         <h3>Cider</h3>
@@ -411,11 +85,11 @@
             </div>
 
             <div class="col-6 col-lg-3">
-                <a href="#" class="text-decoration-none text-dark">
+                <a href="{% url 'recipes:recipe-list' %}?category=Other" class="text-decoration-none text-dark">
                     <div class="category-card">
                         <div class="category-icon" aria-hidden="true">🫙</div>
                         <h3>More crafts</h3>
-                        <p>Mead, ginger beer, and experiments.</p>
+                        <p>Mead, ginger beer, kombucha and more.</p>
                     </div>
                 </a>
             </div>
@@ -423,20 +97,17 @@
     </div>
 </section>
 
-<!-- Featured recipes -->
-<section class="py-5" id="recipes">
+<!-- Latest recipes -->
+<section class="py-5">
     <div class="container py-4">
-        <div class="d-flex flex-column flex-md-row
-                    justify-content-between align-items-md-end gap-3 mb-5">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-5">
             <div>
                 <span class="section-label">Get inspired</span>
-                <h2 class="section-title mt-2 mb-2">Recipes worth exploring</h2>
-                <p class="text-secondary mb-0">
-                    A little inspiration for your next batch.
-                </p>
+                <h2 class="section-title mt-2 mb-2">Latest recipes</h2>
+                <p class="text-secondary mb-0">Fresh from the community.</p>
             </div>
 
-            <a href="#" class="text-success fw-semibold text-decoration-none">
+            <a href="{% url 'recipes:recipe-list' %}" class="fw-semibold text-decoration-none">
                 Browse all recipes &rarr;
             </a>
         </div>
@@ -444,44 +115,14 @@
         <div class="row g-4">
             {% for recipe in recent_recipes %}
                 <div class="col-md-6 col-lg-4">
-                    <article class="recipe-card">
-
-                        {% if recipe.photo %}
-                            <img
-                                    src="{{ recipe.photo.url }}"
-                                    alt="{{ recipe.title }}"
-                                    class="recipe-photo"
-                            >
-                        {% else %}
-                            <div class="recipe-art beer" aria-hidden="true">
-                                🍺
-                            </div>
-                        {% endif %}
-
-                        <div class="card-body">
-                            <span class="recipe-tag">
-                                {{ recipe.category }}
-                            </span>
-
-                            <h3>{{ recipe.title }}</h3>
-
-                            <p class="text-secondary">
-                                {{ recipe.description|default:"No description available yet." }}
-                            </p>
-
-                            <div class="recipe-meta">
-                                <div>Style: {{ recipe.style }}</div>
-                                <div>ABV: {{ recipe.target_abv }}%</div>
-                            </div>
-                        </div>
-
-                    </article>
+                    {% include 'partials/_recipe_card.html' %}
                 </div>
             {% empty %}
-                <div class="col-12">
-                    <p class="text-secondary">
-                        No recipes have been added yet. Check back soon!
-                    </p>
+                <div class="col-12 text-center py-4">
+                    <div class="display-4 mb-3">🫙</div>
+                    <h3 class="h4">No recipes yet</h3>
+                    <p class="text-secondary">Be the first to add one.</p>
+                    <a href="{% url 'recipes:recipe-create' %}" class="btn btn-brew-green">Create a recipe</a>
                 </div>
             {% endfor %}
         </div>
@@ -492,42 +133,15 @@
 <section class="cta-section py-5">
     <div class="container py-4 text-center">
         <span class="hero-label">The craft is in your hands</span>
-        <h2 class="section-title mt-3 mb-3">
-            Every great recipe starts somewhere.
-        </h2>
+        <h2 class="section-title mt-3 mb-3">Every great recipe starts somewhere.</h2>
         <p class="mx-auto mb-4" style="max-width: 600px;">
             Learn from different brewing styles, explore ingredients,
             and build your own collection of recipes.
         </p>
-        <a href="#recipes" class="btn btn-brew">
-            Start exploring
+        <a href="{% url 'catalog:ingredient-list' %}" class="btn btn-brew btn-lg">
+            Explore ingredients
         </a>
     </div>
 </section>
 
-<!-- Footer -->
-<footer class="py-4">
-    <div class="container">
-        <div class="row align-items-center g-3">
-            <div class="col-md-6">
-                <span class="brand">HomeBrew.</span>
-                <p class="small mb-0 mt-2">
-                    A place for recipes, experimentation, and the love of craft.
-                </p>
-            </div>
-
-            <div class="col-md-6 text-md-end">
-                <a href="#" class="me-3">Home</a>
-                <a href="#" class="me-3">Recipes</a>
-                <a href="#">About</a>
-                <p class="small mt-3 mb-0">
-                    &copy; {% now "Y" %} HomeBrew
-                </p>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}

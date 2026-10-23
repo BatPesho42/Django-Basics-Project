@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Stats | HomeBrew{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <div class="mb-5">
+        <p class="page-label mb-2">At a glance</p>
+        <h1 class="display-5 fw-bold">HomeBrew in numbers</h1>
+        <p class="text-secondary">A quick look at everything the community has added so far.</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <a href="{% url 'recipes:recipe-list' %}" class="text-decoration-none text-reset">
+                <div class="hb-panel stat-card">
+                    <div class="stat-number">{{ recipes_count }}</div>
+                    <p class="mt-2 mb-0 fw-semibold">Recipe{{ recipes_count|pluralize }}</p>
+                    <p class="small text-secondary mb-0">Browse all recipes &rarr;</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="{% url 'catalog:ingredient-list' %}" class="text-decoration-none text-reset">
+                <div class="hb-panel stat-card">
+                    <div class="stat-number">{{ ingredients_count }}</div>
+                    <p class="mt-2 mb-0 fw-semibold">Ingredient{{ ingredients_count|pluralize }}</p>
+                    <p class="small text-secondary mb-0">Open the catalog &rarr;</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <div class="hb-panel stat-card">
+                <div class="stat-number">{{ comments_count }}</div>
+                <p class="mt-2 mb-0 fw-semibold">Comment{{ comments_count|pluralize }}</p>
+                <p class="small text-secondary mb-0">Left on recipes</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2 mt-5">
+        <a href="{% url 'recipes:recipe-create' %}" class="btn btn-brew-green">Add a recipe</a>
+        <a href="{% url 'catalog:ingredient-create' %}" class="btn btn-outline-dark">Add an ingredient</a>
+    </div>
+
+</div>
+{% endblock %}

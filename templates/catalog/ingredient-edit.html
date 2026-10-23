@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit {{ ingredient.name }} | HomeBrew{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-xl-6">
+
+            <a href="{% url 'catalog:ingredient-details' ingredient.pk %}" class="back-link">
+                &larr; Back to {{ ingredient.name }}
+            </a>
+
+            <h1 class="display-6 fw-bold mt-3">Edit Ingredient</h1>
+            <p class="text-muted mb-4">Update the details and select every label that applies to <strong>{{ ingredient.name }}</strong>.</p>
+
+            <form method="post" class="hb-form hb-panel shadow-sm">
+                {% csrf_token %}
+
+                <div class="hb-panel-body">
+                    {% include 'partials/_ingredient_form_fields.html' %}
+                </div>
+
+                <div class="border-top p-4 d-flex justify-content-between gap-2"
+                     style="background: var(--brew-cream); border-radius: 0 0 16px 16px;">
+                    <a href="{% url 'catalog:ingredient-details' ingredient.pk %}"
+                       class="btn btn-outline-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-brew-green px-4">Save changes</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{# Shared by ingredient create and edit templates. The view supplies `form`. #}
+<form method="post" novalidate>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for error in form.non_field_errors %}
+                <div>{{ error }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="mb-4">
+        <label for="{{ form.name.id_for_label }}" class="form-label">
+            {{ form.name.label|default:"Ingredient Name" }}
+            {% if form.name.field.required %}<span class="text-danger">*</span>{% endif %}
+        </label>
+        {{ form.name }}
+        {% for error in form.name.errors %}
+            <div class="invalid-feedback d-block">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <fieldset class="mb-4 ingredient-categories">
+        <legend class="form-label mb-1">
+            {{ form.categories.label|default:"Categories" }}
+            {% if form.categories.field.required %}<span class="text-danger">*</span>{% endif %}
+        </legend>
+        <p class="form-text mt-0 mb-3">Select every label that applies to this ingredient. You can choose more than one.</p>
+
+        {# Render Django's checkbox widget directly; do not manually loop over its choices. #}
+        <div class="ingredient-category-options">
+            {{ form.categories }}
+        </div>
+
+        {% for error in form.categories.errors %}
+            <div class="text-danger small mt-2">{{ error }}</div>
+        {% endfor %}
+    </fieldset>
+
+    <div class="mb-4">
+        <label for="{{ form.description.id_for_label }}" class="form-label">
+            {{ form.description.label|default:"Ingredient Description" }}
+        </label>
+        {{ form.description }}
+        {% for error in form.description.errors %}
+            <div class="invalid-feedback d-block">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+
+    <div class="d-flex flex-wrap gap-2 pt-2">
+        <button type="submit" class="btn btn-primary">{{ submit_label|default:"Save ingredient" }}</button>
+        <a class="btn btn-outline-secondary" href="{% url 'catalog:ingredient-list' %}">Cancel</a>
+    </div>
+</form>

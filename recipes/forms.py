@@ -29,7 +29,7 @@ RecipeIngredientFormSet = inlineformset_factory(Recipe, RecipeIngredient, form=R
 class RecipeForm(ModelForm):
     class Meta:
         model = Recipe
-        exclude = ['created_at', 'updated_at']
+        exclude = ['created_at', 'updated_at', 'ingredients']
         labels = {'aging_days': 'Aging',
                   'target_abv': 'Target ABV',
                   }

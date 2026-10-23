@@ -1,7 +1,12 @@
 {% load static %}
 
-<header>
-    <a href="{% url 'common:profile' %}" class="nav-link">
-        Hello, Placeholder
-    </a>
-</header>
+<a href="{% url 'common:profile' %}"
+   class="placeholder-profile nav-link {% if request.resolver_match.view_name == 'common:profile' %}active{% endif %}"
+   aria-label="Open placeholder profile and project statistics">
+    <span class="placeholder-avatar" aria-hidden="true">P</span>
+    <span class="placeholder-profile-copy">
+        <span class="placeholder-greeting">Hello,</span>
+        <span class="placeholder-name">Placeholder</span>
+    </span>
+    <span class="placeholder-chevron" aria-hidden="true">⌄</span>
+</a>

@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ recipe.title }} | HomeBrew{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <a href="{% url 'recipes:recipe-list' %}" class="back-link">&larr; Back to recipes</a>
+
+    <!-- Title row -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start gap-3 mt-3 mb-4">
+        <div>
+            <span class="recipe-tag">{{ recipe.category }}</span>
+            <span class="recipe-tag">{{ recipe.style }}</span>
+            <h1 class="display-5 fw-bold mt-3 mb-1">{{ recipe.title }}</h1>
+            <p class="text-secondary mb-0">
+                Added {{ recipe.created_at|date:"d M Y" }}
+                {% if recipe.average_rating %}
+                    &middot; <span class="rating">★ {{ recipe.average_rating|floatformat:1 }}/5</span>
+                {% endif %}
+                &middot; {{ recipe.comments.all|length }} comment{{ recipe.comments.all|length|pluralize }}
+            </p>
+        </div>
+
+        <div class="d-flex gap-2">
+            <a href="{% url 'recipes:recipe-edit' recipe.pk %}" class="btn btn-outline-dark">Edit</a>
+            <a href="{% url 'recipes:recipe-delete' recipe.pk %}" class="btn btn-outline-danger">Delete</a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Main column -->
+        <div class="col-lg-8">
+
+            {% if recipe.photo %}
+                <img src="{{ recipe.photo.url }}" alt="{{ recipe.title }}" class="detail-photo mb-4">
+            {% endif %}
+
+            <div class="hb-panel mb-4">
+                <div class="hb-panel-header">Instructions</div>
+                <div class="hb-panel-body">
+                    {% if recipe.description %}
+                        {{ recipe.description|linebreaks }}
+                    {% else %}
+                        <p class="text-secondary mb-0">No instructions have been added yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="hb-panel mb-4">
+                <div class="hb-panel-header">Ingredients</div>
+                <div class="hb-panel-body">
+                    {% if recipe.recipeingredient_set.all %}
+                        <div class="table-responsive">
+                            <table class="table ingredient-table align-middle mb-0">
+                                <thead>
+                                <tr>
+                                    <th>Ingredient</th>
+                                    <th>Amount</th>
+                                    <th>Role</th>
+                                    <th>When</th>
+                                    <th>Notes</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in recipe.recipeingredient_set.all %}
+                                    <tr>
+                                        <td class="fw-semibold">
+                                            <a href="{% url 'catalog:ingredient-details' item.ingredient.pk %}"
+                                               class="text-decoration-none">{{ item.ingredient.name }}</a>
+                                        </td>
+                                        <td>{{ item.quantity|floatformat:"-2" }} {{ item.unit }}</td>
+                                        <td><span class="badge role-badge">{{ item.role }}</span></td>
+                                        <td>{{ item.stage|default:"—" }}</td>
+                                        <td class="text-secondary small">{{ item.notes|default:"—" }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-secondary mb-0">
+                            No ingredients listed yet.
+                            <a href="{% url 'recipes:recipe-edit' recipe.pk %}">Add some</a>.
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Side column -->
+        <div class="col-lg-4">
+
+            <div class="hb-panel mb-4">
+                <div class="hb-panel-header">At a glance</div>
+                <div class="hb-panel-body">
+                    <dl class="fact-list mb-0">
+                        <dt>Target ABV</dt>
+                        <dd>{{ recipe.target_abv }}%</dd>
+                        <dt>Category</dt>
+                        <dd>{{ recipe.category }}</dd>
+                        <dt>Style</dt>
+                        <dd class="mb-0">{{ recipe.style }}</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="hb-panel mb-4">
+                <div class="hb-panel-header">Timeline</div>
+                <div class="hb-panel-body py-2">
+                    <div class="stage-step">
+                        <div class="stage-days">{{ recipe.primary_fermentation_days }}<small>day{{ recipe.primary_fermentation_days|pluralize }}</small></div>
+                        <div><strong>Primary fermentation</strong></div>
+                    </div>
+
+                    {% if recipe.secondary_fermentation_days %}
+                        <div class="stage-step">
+                            <div class="stage-days">{{ recipe.secondary_fermentation_days }}<small>day{{ recipe.secondary_fermentation_days|pluralize }}</small></div>
+                            <div><strong>Secondary fermentation</strong></div>
+                        </div>
+                    {% endif %}
+
+                    {% if recipe.aging_days %}
+                        <div class="stage-step">
+                            <div class="stage-days">{{ recipe.aging_days }}<small>day{{ recipe.aging_days|pluralize }}</small></div>
+                            <div><strong>Aging</strong></div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comments -->
+    <section class="mt-5" id="comments">
+        <h2 class="h3 mb-4">Comments</h2>
+
+        <div class="row g-4">
+            <div class="col-lg-7">
+                {% for comment in recipe.comments.all %}
+                    <div class="comment-card mb-3">
+                        <div class="d-flex justify-content-between align-items-start gap-2">
+                            <div>
+                                <strong>{{ comment.author }}</strong>
+                                <span class="rating ms-2">★ {{ comment.rating }}/5</span>
+                                <div class="small text-secondary">
+                                    {{ comment.created_at|timesince }} ago
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2 small">
+                                <a href="{% url 'recipes:recipe-comment-edit' recipe.pk comment.pk %}">Edit</a>
+                                <a href="{% url 'recipes:recipe-comment-delete' recipe.pk comment.pk %}"
+                                   class="text-danger">Delete</a>
+                            </div>
+                        </div>
+
+                        <p class="mt-3 mb-0">{{ comment.comment|linebreaksbr }}</p>
+
+                        {% if comment.photo %}
+                            <img src="{{ comment.photo.url }}" alt="Photo from {{ comment.author }}"
+                                 class="comment-photo mt-3">
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <div class="text-center text-secondary py-4">
+                        <div class="display-6 mb-2">💬</div>
+                        No comments yet. Be the first to share what you think.
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="col-lg-5">
+                <form method="post" enctype="multipart/form-data"
+                      action="{% url 'recipes:recipe-details' recipe.pk %}"
+                      class="hb-form hb-panel">
+                    {% csrf_token %}
+                    <div class="hb-panel-header">Leave a comment</div>
+                    <div class="hb-panel-body">
+                        {% include 'partials/_form_fields.html' with form=comment_form %}
+                        <button type="submit" class="btn btn-brew-green w-100">Post comment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock %}

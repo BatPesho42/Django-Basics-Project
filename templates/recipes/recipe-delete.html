@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete {{ recipe.title }} | HomeBrew{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-xl-6">
+            <a href="{% url 'recipes:recipe-details' recipe.pk %}" class="back-link">&larr; Back to recipe</a>
+
+            <div class="hb-panel shadow-sm mt-4 overflow-hidden">
+                <div class="hb-panel-body p-4 p-md-5">
+                    <div class="display-5 mb-3" aria-hidden="true">⚠️</div>
+                    <p class="page-label mb-2">This action cannot be undone</p>
+                    <h1 class="h2 mb-3">Delete “{{ recipe.title }}”?</h1>
+                    <p class="text-secondary">
+                        This permanently deletes the recipe, its ingredient rows, and
+                        {{ recipe.comments.count }} comment{{ recipe.comments.count|pluralize }}.
+                    </p>
+
+                    {% if recipe.photo %}
+                        <img src="{{ recipe.photo.url }}" alt="{{ recipe.title }}" class="detail-photo mt-3">
+                    {% endif %}
+                    <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 mt-4">
+                        <a href="{% url 'recipes:recipe-details' recipe.pk %}" class="btn btn-outline-secondary">Keep recipe</a>
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger px-4">Yes, delete recipe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

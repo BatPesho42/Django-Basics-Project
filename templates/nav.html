@@ -1,6 +1,54 @@
-{% load static %}
-<header>
-    <nav class="navbar">
+<header class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top hb-navbar" aria-label="Main navigation">
+        <div class="container">
+            <a class="navbar-brand brand" href="{% url 'common:home' %}">HomeBrew<span>.</span></a>
 
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav me-auto align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.view_name == 'common:home' %}active{% endif %}"
+                           href="{% url 'common:home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.app_name == 'recipes' %}active{% endif %}"
+                           href="{% url 'recipes:recipe-list' %}">Recipes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.app_name == 'catalog' %}active{% endif %}"
+                           href="{% url 'catalog:ingredient-list' %}">Ingredients</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">Create</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'recipes:recipe-create' %}">New recipe</a></li>
+                            <li><a class="dropdown-item" href="{% url 'catalog:ingredient-create' %}">New ingredient</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="navbar-actions d-lg-flex align-items-lg-center gap-lg-3">
+                    <form class="nav-search d-flex gap-2 my-3 my-lg-0" role="search"
+                          method="get" action="{% url 'common:search' %}">
+                        <input class="form-control form-control-sm" type="search"
+                               name="query" maxlength="100"
+                               placeholder="Search HomeBrew..." aria-label="Search HomeBrew"
+                               value="{{ request.GET.query }}">
+                        <button class="btn btn-brew btn-sm" type="submit">Search</button>
+                    </form>
+
+                    {% include 'header.html' %}
+                </div>
+            </div>
+        </div>
     </nav>
 </header>

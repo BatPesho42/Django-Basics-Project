@@ -1,0 +1,16 @@
+{# Renders every field of `form`, plus form-level errors. Expects `form`. #}
+{% if form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+        {% for error in form.non_field_errors %}
+            <div>{{ error }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% for hidden in form.hidden_fields %}
+    {{ hidden }}
+{% endfor %}
+
+{% for field in form.visible_fields %}
+    {% include 'partials/_field.html' %}
+{% endfor %}

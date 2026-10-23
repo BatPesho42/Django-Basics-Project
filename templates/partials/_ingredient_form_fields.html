@@ -1,0 +1,16 @@
+{# Ingredient form fields in the intended order. Expects `form`. #}
+{% if form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+        {% for error in form.non_field_errors %}
+            <div>{{ error }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% for hidden in form.hidden_fields %}
+    {{ hidden }}
+{% endfor %}
+
+{% include 'partials/_field.html' with field=form.name %}
+{% include 'partials/_field.html' with field=form.categories %}
+{% include 'partials/_field.html' with field=form.description %}

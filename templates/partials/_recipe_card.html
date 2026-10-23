@@ -1,0 +1,37 @@
+{# One recipe card. Expects `recipe`. Shows the rating only when the queryset is annotated with `average_rating`. #}
+<article class="recipe-card card h-100 border-0 shadow-sm">
+
+    {% if recipe.photo %}
+        <img src="{{ recipe.photo.url }}" alt="{{ recipe.title }}" class="recipe-photo">
+    {% else %}
+        <div class="recipe-placeholder {{ recipe.category|lower }}" aria-hidden="true">
+            {% if recipe.category == "Beer" %}🍺{% elif recipe.category == "Wine" %}🍷{% else %}🫙{% endif %}
+        </div>
+    {% endif %}
+
+    <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="recipe-tag">{{ recipe.category }}</span>
+
+            {% if recipe.average_rating %}
+                <span class="small rating">★ {{ recipe.average_rating|floatformat:1 }}/5</span>
+            {% endif %}
+        </div>
+
+        <h3 class="h5 fw-bold">
+            <a href="{% url 'recipes:recipe-details' recipe.pk %}"
+               class="stretched-link text-decoration-none text-reset">
+                {{ recipe.title }}
+            </a>
+        </h3>
+
+        <p class="text-secondary small mb-3">
+            {{ recipe.description|default:"No description available yet."|truncatewords:20 }}
+        </p>
+
+        <div class="d-flex justify-content-between small text-secondary">
+            <span>{{ recipe.style }}</span>
+            <span>{{ recipe.target_abv }}% ABV</span>
+        </div>
+    </div>
+</article>

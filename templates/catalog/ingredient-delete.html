@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete {{ ingredient.name }} | HomeBrew{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-xl-6">
+            <a href="{% url 'catalog:ingredient-details' ingredient.pk %}" class="back-link">&larr; Back to ingredient</a>
+
+            <div class="hb-panel shadow-sm mt-4 overflow-hidden">
+                <div class="hb-panel-body p-4 p-md-5">
+                    <div class="display-5 mb-3" aria-hidden="true">🌾</div>
+                    <p class="page-label mb-2">Ingredient catalogue</p>
+                    <h1 class="h2 mb-3">Delete “{{ ingredient.name }}”?</h1>
+                    <dl class="fact-list mb-0">
+                        <dt>Categories</dt>
+                        <dd>{{ ingredient.category_labels|join:", " }}</dd>
+                        <dt>Description</dt>
+                        <dd>{{ ingredient.description|default:"No description added."|truncatewords:35 }}</dd>
+                    </dl>
+
+                    {% if ingredient.recipes.all %}
+                        <div class="alert alert-warning mt-4 mb-0" role="alert">
+                            <strong>This ingredient is in use.</strong>
+                            It appears in {{ ingredient.recipes.count }} recipe{{ ingredient.recipes.count|pluralize }}.
+                            Remove it from those recipes before deleting it.
+                            <ul class="mb-0 mt-2">
+                                {% for recipe in ingredient.recipes.all %}
+                                    <li><a href="{% url 'recipes:recipe-details' recipe.pk %}">{{ recipe.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% else %}
+                        <p class="text-secondary mt-4 mb-0">This cannot be undone.</p>
+                    {% endif %}
+                </div>
+                <div class="border-top p-4 d-flex flex-column flex-sm-row justify-content-between gap-2" style="background: var(--brew-cream);">
+                    <a href="{% url 'catalog:ingredient-details' ingredient.pk %}" class="btn btn-outline-secondary">Cancel</a>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger px-4" {% if ingredient.recipes.all %}disabled{% endif %}>
+                            Delete ingredient
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

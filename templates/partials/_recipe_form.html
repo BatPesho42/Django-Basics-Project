@@ -1,0 +1,42 @@
+{# Shared by recipe-create and recipe-edit. Expects `form`, `formset`, `submit_label` and `cancel_url`. #}
+<form method="post" enctype="multipart/form-data" class="hb-form hb-panel shadow-sm">
+    {% csrf_token %}
+
+    <div class="hb-panel-body p-md-5">
+
+        <h2 class="h4 mb-1">Recipe details</h2>
+        <p class="text-muted small mb-4">Give your creation a name and describe its character.</p>
+
+        {% include 'partials/_form_fields.html' %}
+
+        <hr class="my-5">
+
+        <h2 class="h4 mb-1">Ingredients</h2>
+        <p class="text-muted small mb-4">
+            Add the ingredients used in this recipe. Empty rows are ignored.
+        </p>
+
+        {{ formset.management_form }}
+
+        {% for error in formset.non_form_errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+
+        {% for ingredient_form in formset %}
+            {% include 'partials/_ingredient_form_row.html' with f=ingredient_form number=forloop.counter %}
+        {% endfor %}
+
+        <div class="alert alert-light border small mb-0">
+            <strong>Tip:</strong> use <em>Role</em> to tell main ingredients, secondary
+            ingredients and fermentation agents apart. Can't find an ingredient?
+            <a href="{% url 'catalog:ingredient-create' %}" target="_blank" rel="noopener">Add it here</a>
+            and refresh this page.
+        </div>
+    </div>
+
+    <div class="border-top p-4 d-flex flex-column flex-sm-row justify-content-between gap-2"
+         style="background: var(--brew-cream); border-radius: 0 0 16px 16px;">
+        <a href="{{ cancel_url }}" class="btn btn-outline-secondary">Cancel</a>
+        <button type="submit" class="btn btn-brew-green px-4">{{ submit_label }}</button>
+    </div>
+</form>

@@ -3,12 +3,7 @@
     <div class="d-flex justify-content-between align-items-center mb-2">
         <span class="row-title">Ingredient {{ number }}</span>
 
-        {% if f.DELETE %}
-            <div class="d-flex align-items-center gap-2">
-                {{ f.DELETE }}
-                <label for="{{ f.DELETE.id_for_label }}" class="small text-danger mb-0">Remove</label>
-            </div>
-        {% endif %}
+
     </div>
 
     {% for error in f.non_field_errors %}

@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views.generic import TemplateView, UpdateView, DeleteView, ListView
 
 from catalog.models import Ingredient
-from common.forms import SearchBarForm, CommentDeleteForm, CommentForm
+from common.forms import SearchBarForm, CommentForm
 from common.models import RecipeComment
 from mixins import CommentViewMixin
 from recipes.models import Recipe
@@ -67,6 +67,5 @@ class CommentEditView(CommentViewMixin, UpdateView):
 class CommentDeleteView(CommentViewMixin, DeleteView):
     model = RecipeComment
     template_name = 'common/comment-delete.html'
-    form_class = CommentDeleteForm
     context_object_name = 'comment'
     pk_url_kwarg = 'comment_pk'

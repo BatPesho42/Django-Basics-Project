@@ -705,3 +705,30 @@ a:hover {
         grid-template-columns: minmax(0, 1fr);
     }
 }
+
+.ingredient-filter-tag {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: 1px solid #d8ddcf;
+    border-radius: 50rem;
+    color: #354235;
+    background-color: #f8f7f0;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease,
+                color 0.2s ease,
+                border-color 0.2s ease;
+}
+
+.ingredient-filter-tag:hover {
+    border-color: #354235;
+    background-color: #edf0e8;
+    color: #252d25;
+}
+
+.ingredient-filter-tag.active {
+    border-color: #d9b86c;
+    background-color: #d9b86c;
+    color: #252d25;
+}

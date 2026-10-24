@@ -3,55 +3,108 @@
 {% block title %}Ingredients | HomeBrew{% endblock %}
 
 {% block content %}
+
 <div class="container py-5">
 
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-5">
-        <div>
-            <p class="page-label mb-2">The pantry</p>
-            <h1 class="display-5 fw-bold">Ingredients</h1>
-            <p class="text-secondary mb-0">Everything that goes into a good brew.</p>
-        </div>
-        <a href="{% url 'catalog:ingredient-create' %}" class="btn btn-brew-green px-4">+ New ingredient</a>
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-5">
+    <div>
+        <p class="page-label mb-2">The pantry</p>
+        <h1 class="display-5 fw-bold">Ingredients</h1>
+        <p class="text-secondary mb-0">Everything that goes into a good brew.</p>
     </div>
+    <a href="{% url 'catalog:ingredient-create' %}" class="btn btn-brew-green px-4">
+        + New ingredient
+    </a>
+</div>
 
-    <div class="row g-4">
-        {% for ingredient in ingredients %}
-            <div class="col-md-6 col-lg-4">
-                <article class="ingredient-card card h-100 border-0 shadow-sm">
-                    <div class="card-body p-4 d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <div class="d-flex flex-wrap gap-1">
-                                {% for label in ingredient.category_labels %}
-                                    <span class="recipe-tag">{{ label }}</span>
-                                {% endfor %}
-                            </div>
-                            <span class="small text-secondary">
-                                {{ ingredient.recipes.count }} recipe{{ ingredient.recipes.count|pluralize }}
-                            </span>
+<!-- Category filter buttons -->
+<div class="mb-4">
+    <p class="fw-semibold mb-2">Filter by category</p>
+
+    <div class="d-flex flex-wrap gap-2">
+        <a href="{% url 'catalog:ingredient-list' %}"
+           class="btn btn-sm btn-outline-success {% if not request.GET.category %}active{% endif %}">
+            All
+        </a>
+
+        <a href="{% url 'catalog:ingredient-list' %}?category=Base"
+           class="btn btn-sm btn-outline-success {% if request.GET.category == 'Base' %}active{% endif %}">
+            Base ingredient
+        </a>
+
+        <a href="{% url 'catalog:ingredient-list' %}?category=Flavouring"
+           class="btn btn-sm btn-outline-success {% if request.GET.category == 'Flavouring' %}active{% endif %}">
+            Flavouring
+        </a>
+
+        <a href="{% url 'catalog:ingredient-list' %}?category=Fermentable"
+           class="btn btn-sm btn-outline-success {% if request.GET.category == 'Fermentable' %}active{% endif %}">
+            Fermentable
+        </a>
+
+        <a href="{% url 'catalog:ingredient-list' %}?category=Fermentation%20Agent"
+           class="btn btn-sm btn-outline-success {% if request.GET.category == 'Fermentation Agent' %}active{% endif %}">
+            Fermentation agent
+        </a>
+
+        <a href="{% url 'catalog:ingredient-list' %}?category=Additive"
+           class="btn btn-sm btn-outline-success {% if request.GET.category == 'Additive' %}active{% endif %}">
+            Additive
+        </a>
+
+        <a href="{% url 'catalog:ingredient-list' %}?category=Clarifying%20Agent"
+           class="btn btn-sm btn-outline-success {% if request.GET.category == 'Clarifying Agent' %}active{% endif %}">
+            Clarifying agent
+        </a>
+    </div>
+</div>
+
+<!-- Ingredient cards -->
+<div class="row g-4">
+    {% for ingredient in ingredients %}
+        <div class="col-md-6 col-lg-4">
+            <article class="ingredient-card card h-100 border-0 shadow-sm">
+                <div class="card-body p-4 d-flex flex-column">
+
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="d-flex flex-wrap gap-1">
+                            {% for label in ingredient.category_labels %}
+                                <span class="recipe-tag">{{ label }}</span>
+                            {% endfor %}
                         </div>
 
-                        <h2 class="h5 fw-bold">
-                            <a href="{% url 'catalog:ingredient-details' ingredient.pk %}"
-                               class="text-decoration-none text-reset stretched-link">
-                                {{ ingredient.name }}
-                            </a>
-                        </h2>
-
-                        <p class="text-secondary small mb-0">
-                            {{ ingredient.description|default:"No description yet."|truncatewords:18 }}
-                        </p>
+                        <span class="small text-secondary">
+                            {{ ingredient.recipes.count }} recipe{{ ingredient.recipes.count|pluralize }}
+                        </span>
                     </div>
-                </article>
-            </div>
-        {% empty %}
-            <div class="col-12 text-center py-5">
-                <div class="display-4 mb-3">🌾</div>
-                <h2 class="h4">No ingredients yet</h2>
-                <p class="text-secondary">Add your first ingredient to start building recipes.</p>
-                <a href="{% url 'catalog:ingredient-create' %}" class="btn btn-brew-green">Add an ingredient</a>
-            </div>
-        {% endfor %}
-    </div>
+
+                    <h2 class="h5 fw-bold">
+                        <a href="{% url 'catalog:ingredient-details' ingredient.pk %}"
+                           class="text-decoration-none text-reset stretched-link">
+                            {{ ingredient.name }}
+                        </a>
+                    </h2>
+
+                    <p class="text-secondary small mb-0">
+                        {{ ingredient.description|default:"No description yet."|truncatewords:18 }}
+                    </p>
+
+                </div>
+            </article>
+        </div>
+    {% empty %}
+        <div class="col-12 text-center py-5">
+            <div class="display-4 mb-3">🌾</div>
+            <h2 class="h4">No ingredients found</h2>
+            <p class="text-secondary">
+                There are no ingredients in this category yet.
+            </p>
+            <a href="{% url 'catalog:ingredient-create' %}" class="btn btn-brew-green">
+                Add an ingredient
+            </a>
+        </div>
+    {% endfor %}
+</div>
 
 </div>
 {% endblock %}

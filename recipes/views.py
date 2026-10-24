@@ -7,7 +7,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, D
 
 from common.forms import CommentForm
 
-from recipes.forms import RecipeForm, RecipeIngredientFormSet, RecipeDeleteForm
+from recipes.forms import RecipeForm, RecipeIngredientFormSet
 from recipes.models import Recipe
 
 
@@ -140,11 +140,5 @@ class RecipeEditView(UpdateView):
 class RecipeDeleteView(DeleteView):
     model = Recipe
     success_url = reverse_lazy('recipes:recipe-list')
-    form_class = RecipeDeleteForm
     template_name = 'recipes/recipe-delete.html'
     context_object_name = 'recipe'
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['instance'] = self.object
-        return kwargs

@@ -14,5 +14,3 @@ class CommentForm(forms.ModelForm):
         exclude = ['recipe', 'created_at', 'updated_at']
         widgets = {'comment': forms.Textarea(attrs={'placeholder': 'What do you think about this recipe?'})}
 
-class CommentDeleteForm(CommentForm, DeleteFormMixin):
-    ...

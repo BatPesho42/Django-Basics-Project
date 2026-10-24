@@ -44,5 +44,3 @@ class RecipeForm(ModelForm):
                    'target_abv': forms.NumberInput(attrs={'placeholder': 'e.g. 5.5%'}),
                    }
 
-class RecipeDeleteForm(DeleteFormMixin, RecipeForm):
-    ...

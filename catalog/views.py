@@ -43,6 +43,15 @@ class IngredientListView(ListView):
     template_name = 'catalog/ingredient-list.html'
     context_object_name = 'ingredients'
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        category = self.request.GET.get('category')
+
+        if category in Ingredient.CategoryChoices.values:
+            qs = qs.filter(categories__icontains=category)
+
+        return qs
+
 class IngredientDetailView(DetailView):
     model = Ingredient
     template_name = 'catalog/ingredient-details.html'
